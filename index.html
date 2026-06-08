@@ -763,6 +763,30 @@ footer{
     right: 1rem;
   }
 }
+
+/* Toast styling */
+.rt-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(16, 185, 129, 0.95);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+  z-index: 2000;
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+  pointer-events: none;
+}
+.rt-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
 </style>
 </head>
 <body>
@@ -1003,14 +1027,14 @@ footer{
       Ready to build<br><span>something great?</span>
     </h2>
     <p class="contact-sub reveal reveal-delay-2">Whether you have a fully scoped project or just an idea — we'd love to hear it. Let's turn your vision into working software.</p>
-    <a href="mailto:royaaltechh@gmail.com" class="btn-primary reveal reveal-delay-3" style="display:inline-flex;margin:0 auto">Send an Email →</a>
+    <a href="mailto:royaaltechh@gmail.com" onclick="copyEmail(event, this)" class="btn-primary reveal reveal-delay-3" style="display:inline-flex;margin:0 auto">Send an Email →</a>
     <div class="contact-cards reveal reveal-delay-2">
       <a href="https://srijith.vercel.app/" target="_blank" class="contact-card" style="text-decoration:none">
         <div class="contact-card-icon">🌐</div>
         <div class="contact-card-label">Portfolio</div>
         <div class="contact-card-value">srijith.vercel.app</div>
       </a>
-      <a href="mailto:royaaltechh@gmail.com" class="contact-card" style="text-decoration:none">
+      <a href="mailto:royaaltechh@gmail.com" onclick="copyEmail(event, this)" class="contact-card" style="text-decoration:none">
         <div class="contact-card-icon">✉️</div>
         <div class="contact-card-label">Email</div>
         <div class="contact-card-value">royaaltechh@gmail.com</div>
@@ -1252,6 +1276,46 @@ function getBotReply(input) {
   
   return "I'm here to help! 🚀 Try asking about our <strong>services</strong>, <strong>tech stack</strong>, <strong>process</strong>, <strong>portfolio</strong>, or <strong>contact info</strong>. Alternatively, you can click on one of the quick options below.";
 }
+
+// Copy email fallback helper
+function copyEmail(event, element) {
+  const email = "royaaltechh@gmail.com";
+  
+  navigator.clipboard.writeText(email).then(() => {
+    showToast("Email address copied to clipboard!");
+    
+    // If it's the main button, give visual feedback
+    if (element.classList.contains('btn-primary')) {
+      const originalText = element.innerHTML;
+      element.innerHTML = "Copied to Clipboard! ✓";
+      const originalBg = element.style.background;
+      element.style.background = "#10b981"; // green
+      setTimeout(() => {
+        element.innerHTML = originalText;
+        element.style.background = originalBg;
+      }, 2000);
+    }
+  }).catch(err => {
+    console.error('Could not copy email: ', err);
+  });
+}
+
+function showToast(message) {
+  let toast = document.getElementById('rt-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.className = 'rt-toast';
+    toast.id = 'rt-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
 </script>
+<!-- Toast container -->
+<div class="rt-toast" id="rt-toast">Email copied to clipboard!</div>
 </body>
 </html>
