@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royaal Tech — Engineering the Future</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rt-black:#0a0a0a;
+  --rt-white:#ffffff;
+  --rt-purple:#6c3aff;
+  --rt-purple-light:#8b5cf6;
+  --rt-purple-dim:#3d1f99;
+  --rt-accent:#00e5ff;
+  --rt-accent2:#a855f7;
+  --rt-gray:#f5f5f3;
+  --rt-gray2:#e8e8e4;
+  --rt-gray3:#b0b0aa;
+  --rt-text:#1a1a1a;
+  --rt-text-muted:#666660;
+  --rt-border:rgba(0,0,0,0.08);
+  --rt-nav-h:72px;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--rt-white);
+  color:var(--rt-text);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:var(--rt-nav-h);
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--rt-border);
+  display:flex;align-items:center;
+  padding:0 5%;
+  gap:auto;
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;
+  font-weight:800;font-size:1.35rem;
+  letter-spacing:-0.02em;
+  color:var(--rt-black);
+  text-decoration:none;
+  flex:0 0 auto;
+}
+.nav-logo span{color:var(--rt-purple)}
+.nav-links{
+  display:flex;align-items:center;gap:2rem;
+  margin:0 auto;
+  list-style:none;
+}
+.nav-links a{
+  font-size:0.875rem;font-weight:500;
+  color:var(--rt-text-muted);
+  text-decoration:none;
+  letter-spacing:0.01em;
+  transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--rt-purple)}
+.nav-cta{
+  background:var(--rt-black);
+  color:var(--rt-white)!important;
+  padding:0.5rem 1.25rem;
+  border-radius:100px;
+  font-size:0.875rem!important;
+  font-weight:500!important;
+  text-decoration:none;
+  transition:background 0.2s,transform 0.15s!important;
+  flex:0 0 auto;
+}
+.nav-cta:hover{background:var(--rt-purple)!important;transform:translateY(-1px)}
+.nav-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.nav-menu-btn svg{width:22px;height:22px}
+.mobile-nav{
+  display:none;position:fixed;top:var(--rt-nav-h);left:0;right:0;
+  background:var(--rt-white);border-bottom:1px solid var(--rt-border);
+  padding:1.5rem 5%;z-index:99;
+}
+.mobile-nav.open{display:block}
+.mobile-nav a{
+  display:block;padding:0.75rem 0;font-size:1rem;font-weight:500;
+  color:var(--rt-text);text-decoration:none;
+  border-bottom:1px solid var(--rt-border);
+}
+.mobile-nav a:last-child{border-bottom:none}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  background:var(--rt-black);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:calc(var(--rt-nav-h) + 5rem) 5% 6rem;
+  position:relative;overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(108,58,255,0.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(108,58,255,0.07) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 100%,transparent 30%,black 80%);
+}
+.hero-glow{
+  position:absolute;top:-20%;right:-10%;
+  width:700px;height:700px;
+  background:radial-gradient(circle,rgba(108,58,255,0.25) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-glow2{
+  position:absolute;bottom:-10%;left:-5%;
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(0,229,255,0.1) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  font-size:0.75rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--rt-accent);margin-bottom:1.5rem;
+}
+.hero-eyebrow::before{
+  content:'';width:24px;height:2px;background:var(--rt-accent);
+}
+.hero-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(3rem,7vw,6.5rem);
+  font-weight:800;
+  line-height:1.0;
+  letter-spacing:-0.04em;
+  color:var(--rt-white);
+  max-width:900px;
+  margin-bottom:1.5rem;
+}
+.hero-title em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--rt-purple-light),var(--rt-accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(1rem,2vw,1.2rem);
+  color:rgba(255,255,255,0.55);
+  max-width:520px;
+  font-weight:300;
+  margin-bottom:3rem;
+  line-height:1.7;
+}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.btn-primary{
+  background:var(--rt-purple);color:var(--rt-white);
+  padding:0.9rem 2rem;border-radius:100px;
+  font-size:0.925rem;font-weight:500;
+  text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;
+  transition:background 0.2s,transform 0.15s,box-shadow 0.2s;
+  border:none;cursor:pointer;
+}
+.btn-primary:hover{background:var(--rt-purple-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(108,58,255,0.35)}
+.btn-outline{
+  background:transparent;color:rgba(255,255,255,0.8);
+  padding:0.9rem 2rem;border-radius:100px;
+  font-size:0.925rem;font-weight:500;
+  text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;
+  border:1px solid rgba(255,255,255,0.2);
+  transition:border-color 0.2s,color 0.2s,transform 0.15s;
+  cursor:pointer;
+}
+.btn-outline:hover{border-color:rgba(255,255,255,0.5);color:var(--rt-white);transform:translateY(-2px)}
+.hero-stats{
+  display:flex;gap:3rem;flex-wrap:wrap;
+  margin-top:5rem;padding-top:2.5rem;
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+.hero-stat-num{
+  font-family:'Syne',sans-serif;
+  font-size:2.5rem;font-weight:700;color:var(--rt-white);
+  letter-spacing:-0.03em;line-height:1;
+}
+.hero-stat-label{
+  font-size:0.8rem;color:rgba(255,255,255,0.4);
+  letter-spacing:0.06em;text-transform:uppercase;
+  margin-top:0.25rem;
+}
+
+/* ── MARQUEE ── */
+.marquee-band{
+  background:var(--rt-purple);
+  padding:1rem 0;overflow:hidden;
+  display:flex;
+}
+.marquee-track{
+  display:flex;gap:3rem;white-space:nowrap;
+  animation:marquee 22s linear infinite;
+}
+.marquee-track2{animation-direction:reverse}
+.marquee-item{
+  font-family:'Syne',sans-serif;
+  font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+  color:rgba(255,255,255,0.6);
+  display:flex;align-items:center;gap:1rem;
+}
+.marquee-item span{color:var(--rt-white)}
+.marquee-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.3)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── SECTIONS ── */
+section{padding:7rem 5%}
+.section-label{
+  font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--rt-purple);margin-bottom:1rem;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.section-label::after{content:'';flex:0 0 24px;height:2px;background:var(--rt-purple)}
+.section-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2rem,4vw,3.5rem);
+  font-weight:800;letter-spacing:-0.03em;
+  line-height:1.1;color:var(--rt-black);
+}
+.section-title em{font-style:normal;color:var(--rt-purple)}
+
+/* ── SERVICES ── */
+.services{background:var(--rt-gray)}
+.services-header{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:4rem;gap:2rem;flex-wrap:wrap;
+}
+.services-desc{
+  max-width:400px;color:var(--rt-text-muted);
+  font-size:1rem;font-weight:300;line-height:1.7;margin-top:1rem;
+}
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5px;
+  background:var(--rt-gray2);
+  border:1.5px solid var(--rt-gray2);
+}
+.service-card{
+  background:var(--rt-white);
+  padding:2.5rem 2rem;
+  position:relative;overflow:hidden;
+  transition:transform 0.25s,box-shadow 0.25s;
+  cursor:default;
+}
+.service-card::after{
+  content:'';position:absolute;
+  bottom:0;left:0;right:0;height:3px;
+  background:var(--rt-purple);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.3s ease;
+}
+.service-card:hover::after{transform:scaleX(1)}
+.service-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.08)}
+.service-icon{
+  font-size:1.75rem;margin-bottom:1.25rem;
+  display:block;line-height:1;
+}
+.service-name{
+  font-family:'Syne',sans-serif;
+  font-size:1.05rem;font-weight:700;
+  color:var(--rt-black);margin-bottom:0.5rem;
+}
+.service-desc{font-size:0.875rem;color:var(--rt-text-muted);line-height:1.6}
+.service-arrow{
+  position:absolute;bottom:1.5rem;right:1.5rem;
+  width:32px;height:32px;border-radius:50%;
+  border:1px solid var(--rt-gray2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.875rem;color:var(--rt-text-muted);
+  transition:background 0.2s,border-color 0.2s,color 0.2s;
+}
+.service-card:hover .service-arrow{background:var(--rt-purple);border-color:var(--rt-purple);color:#fff}
+
+/* ── SKILLS ── */
+.skills{background:var(--rt-black);color:var(--rt-white);padding:7rem 5%}
+.skills .section-title{color:var(--rt-white)}
+.skills-intro{
+  display:grid;grid-template-columns:1fr 1fr;gap:5rem;
+  align-items:start;margin-bottom:5rem;
+}
+.skills-body{
+  font-size:1rem;color:rgba(255,255,255,0.5);
+  font-weight:300;line-height:1.8;margin-top:1.5rem;
+}
+.skills-highlight{
+  border-left:2px solid var(--rt-purple);
+  padding-left:1.5rem;
+  font-size:1.1rem;color:rgba(255,255,255,0.75);
+  font-weight:300;line-height:1.7;
+}
+.skills-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:1rem;
+}
+.skill-pill{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  padding:1.25rem 1rem;
+  display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+  transition:background 0.2s,border-color 0.2s,transform 0.2s;
+  cursor:default;
+}
+.skill-pill:hover{
+  background:rgba(108,58,255,0.15);
+  border-color:rgba(108,58,255,0.4);
+  transform:translateY(-3px);
+}
+.skill-emoji{font-size:1.5rem;line-height:1}
+.skill-name{font-size:0.78rem;font-weight:500;color:rgba(255,255,255,0.7);text-align:center;letter-spacing:0.01em}
+
+/* ── WHY ── */
+.why-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:6rem;
+  align-items:center;
+}
+.why-visual{
+  position:relative;
+  background:var(--rt-black);
+  border-radius:20px;
+  padding:3rem;
+  overflow:hidden;
+}
+.why-visual-glow{
+  position:absolute;top:-30%;right:-20%;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(108,58,255,0.3) 0%,transparent 70%);
+}
+.why-visual-number{
+  font-family:'Syne',sans-serif;
+  font-size:7rem;font-weight:800;
+  color:rgba(255,255,255,0.04);
+  line-height:1;position:relative;z-index:0;
+}
+.why-cards{display:flex;flex-direction:column;gap:1rem;position:relative;z-index:1;margin-top:-2rem}
+.why-mini{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;padding:1.25rem 1.5rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.why-mini-num{
+  font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;
+  color:var(--rt-purple);min-width:2.5rem;
+}
+.why-mini-text{font-size:0.875rem;color:rgba(255,255,255,0.6);line-height:1.5}
+.why-mini-text strong{color:var(--rt-white);display:block;margin-bottom:0.15rem}
+.why-points{list-style:none;margin-top:2rem}
+.why-points li{
+  display:flex;align-items:flex-start;gap:0.75rem;
+  padding:1rem 0;border-bottom:1px solid var(--rt-border);
+  font-size:0.95rem;color:var(--rt-text-muted);line-height:1.6;
+}
+.why-points li:last-child{border-bottom:none}
+.why-check{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--rt-purple);
+  display:flex;align-items:center;justify-content:center;
+  flex:0 0 20px;margin-top:2px;
+  font-size:0.6rem;color:#fff;
+}
+
+/* ── PROCESS ── */
+.process{background:var(--rt-gray);padding:7rem 5%}
+.process-steps{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:0;margin-top:4rem;position:relative;
+}
+.process-steps::before{
+  content:'';position:absolute;
+  top:36px;left:5%;right:5%;height:1px;
+  background:var(--rt-gray2);z-index:0;
+}
+.process-step{position:relative;z-index:1;padding:0 1rem;text-align:center}
+.step-num{
+  width:72px;height:72px;border-radius:50%;
+  background:var(--rt-white);border:1.5px solid var(--rt-gray2);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;
+  font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;
+  color:var(--rt-purple);
+  transition:background 0.2s,border-color 0.2s,transform 0.2s;
+}
+.process-step:hover .step-num{
+  background:var(--rt-purple);color:#fff;
+  border-color:var(--rt-purple);transform:scale(1.1);
+}
+.step-title{
+  font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;
+  color:var(--rt-black);margin-bottom:0.5rem;
+}
+.step-desc{font-size:0.8rem;color:var(--rt-text-muted);line-height:1.6}
+
+/* ── CONTACT ── */
+.contact{
+  background:var(--rt-black);color:var(--rt-white);
+  padding:8rem 5%;
+  position:relative;overflow:hidden;
+}
+.contact-glow{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:800px;height:400px;
+  background:radial-gradient(ellipse,rgba(108,58,255,0.2) 0%,transparent 70%);
+  pointer-events:none;
+}
+.contact-inner{
+  max-width:760px;margin:0 auto;text-align:center;
+  position:relative;z-index:1;
+}
+.contact .section-label{justify-content:center}
+.contact .section-label::after{display:none}
+.contact .section-label::before{content:'';width:24px;height:2px;background:var(--rt-purple)}
+.contact-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2.5rem,5vw,4.5rem);
+  font-weight:800;letter-spacing:-0.04em;line-height:1.05;
+  color:var(--rt-white);margin:1rem 0;
+}
+.contact-title span{color:var(--rt-purple-light)}
+.contact-sub{font-size:1rem;color:rgba(255,255,255,0.45);font-weight:300;margin-bottom:3rem;line-height:1.7}
+.contact-cards{
+  display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3rem;
+}
+.contact-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:2rem;
+  text-align:left;
+  transition:background 0.2s,border-color 0.2s;
+}
+.contact-card:hover{background:rgba(108,58,255,0.1);border-color:rgba(108,58,255,0.3)}
+.contact-card-icon{font-size:1.25rem;margin-bottom:0.75rem}
+.contact-card-label{font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:0.3rem}
+.contact-card-value{
+  font-size:0.9rem;font-weight:500;color:rgba(255,255,255,0.85);
+  text-decoration:none;word-break:break-all;
+}
+.contact-card-value:hover{color:var(--rt-accent)}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--rt-black);
+  border-top:1px solid rgba(255,255,255,0.06);
+  padding:2.5rem 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
+}
+.footer-logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;
+  color:rgba(255,255,255,0.5);text-decoration:none;
+}
+.footer-logo span{color:var(--rt-purple)}
+.footer-copy{font-size:0.8rem;color:rgba(255,255,255,0.25)}
+.footer-credit{font-size:0.75rem;color:rgba(255,255,255,0.2)}
+.footer-credit a{color:rgba(255,255,255,0.35);text-decoration:none}
+.footer-credit a:hover{color:var(--rt-purple-light)}
+
+/* ── ANIMATIONS ── */
+.reveal{
+  opacity:0;transform:translateY(28px);
+  transition:opacity 0.7s ease,transform 0.7s ease;
+}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+.reveal-delay-4{transition-delay:0.4s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .why-grid{grid-template-columns:1fr}
+  .skills-intro{grid-template-columns:1fr;gap:2rem}
+  .contact-cards{grid-template-columns:1fr}
+  .hero-stats{gap:2rem}
+  .process-steps::before{display:none}
+}
+@media(max-width:700px){
+  .nav-links,.nav-cta{display:none}
+  .nav-menu-btn{display:block}
+  section{padding:5rem 5%}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Royaal<span>Tech</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Let's Talk →</a>
+  <button class="nav-menu-btn" onclick="toggleMenu()" aria-label="Open menu">
+    <svg id="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#skills" onclick="toggleMenu()">Skills</a>
+  <a href="#why" onclick="toggleMenu()">Why Us</a>
+  <a href="#process" onclick="toggleMenu()">Process</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-eyebrow">Full-Stack Tech Solutions</div>
+  <h1 class="hero-title">
+    Engineering<br>the <em>Future</em><br>You Need
+  </h1>
+  <p class="hero-sub">
+    Royaal Tech delivers precision-crafted software solutions — from intelligent ML systems to polished UI/UX — built to scale with your ambitions.
+  </p>
+  <div class="hero-actions">
+    <a href="#services" class="btn-primary">Explore Services ↓</a>
+    <a href="#contact" class="btn-outline">Start a Project</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="hero-stat-num">12+</div>
+      <div class="hero-stat-label">Skills & Tools</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">100%</div>
+      <div class="hero-stat-label">Project Commitment</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">Full</div>
+      <div class="hero-stat-label">Stack Coverage</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">Fast</div>
+      <div class="hero-stat-label">Turnaround</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-band">
+  <div class="marquee-track">
+    <div class="marquee-item"><span>Web Development</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Machine Learning</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>App Development</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>UI / UX Design</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>IoT Systems</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Database Solutions</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>React & Next.js</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Backend Engineering</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Web Development</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Machine Learning</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>App Development</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>UI / UX Design</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>IoT Systems</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Database Solutions</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>React & Next.js</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Backend Engineering</span><div class="marquee-dot"></div></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-label reveal">What We Deliver</div>
+      <h2 class="section-title reveal reveal-delay-1">Services that<br><em>move</em> businesses</h2>
+      <p class="services-desc reveal reveal-delay-2">From concept to deployment — we craft digital products that solve real problems with elegant engineering.</p>
+    </div>
+    <a href="#contact" class="btn-primary reveal">All Services →</a>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <span class="service-icon">🌐</span>
+      <div class="service-name">Web Development</div>
+      <div class="service-desc">Responsive, performant websites and web apps built with HTML, CSS, React, and Next.js.</div>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🤖</span>
+      <div class="service-name">Machine Learning</div>
+      <div class="service-desc">Custom ML models, data pipelines, and intelligent automation systems powered by Python.</div>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">📱</span>
+      <div class="service-name">App Development</div>
+      <div class="service-desc">Cross-platform mobile applications designed for performance and great user experience.</div>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🎨</span>
+      <div class="service-name">UI & UX Design</div>
+      <div class="service-desc">Intuitive interfaces and design systems that users love — research-led and pixel-perfect.</div>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">⚡</span>
+      <div class="service-name">IoT Solutions</div>
+      <div class="service-desc">Smart device integration, embedded systems, and real-time IoT data processing.</div>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🗄️</span>
+      <div class="service-name">Database & Backend</div>
+      <div class="service-desc">Robust SQL/NoSQL databases, REST APIs, and scalable backend architecture with .NET and Java.</div>
+      <div class="service-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <div class="skills-intro">
+    <div>
+      <div class="section-label reveal" style="color:var(--rt-accent)">Our Stack</div>
+      <h2 class="section-title reveal reveal-delay-1" style="color:#fff">12 tools.<br>Zero <em style="color:var(--rt-purple-light)">compromises.</em></h2>
+      <p class="skills-body reveal reveal-delay-2">
+        Royaal Tech operates across the full technology stack — frontend to firmware, data to design. Every tool in our arsenal is production-tested and deployed in real projects.
+      </p>
+    </div>
+    <div class="skills-highlight reveal reveal-delay-1">
+      We don't just know these technologies — we use them to build products that users depend on every day. Our multi-disciplinary approach means a single team can take your idea from whiteboard to production.
+    </div>
+  </div>
+  <div class="skills-grid reveal">
+    <div class="skill-pill"><span class="skill-emoji">🐍</span><span class="skill-name">Python</span></div>
+    <div class="skill-pill"><span class="skill-emoji">🔷</span><span class="skill-name">C Programming</span></div>
+    <div class="skill-pill"><span class="skill-emoji">🗄️</span><span class="skill-name">SQL</span></div>
+    <div class="skill-pill"><span class="skill-emoji">🌐</span><span class="skill-name">HTML & CSS</span></div>
+    <div class="skill-pill"><span class="skill-emoji">☕</span><span class="skill-name">Java</span></div>
+    <div class="skill-pill"><span class="skill-emoji">📱</span><span class="skill-name">App Dev</span></div>
+    <div class="skill-pill"><span class="skill-emoji">🎨</span><span class="skill-name">UI & UX</span></div>
+    <div class="skill-pill"><span class="skill-emoji">⚡</span><span class="skill-name">IoT</span></div>
+    <div class="skill-pill"><span class="skill-emoji">⚛️</span><span class="skill-name">React / Next.js</span></div>
+    <div class="skill-pill"><span class="skill-emoji">🤖</span><span class="skill-name">Machine Learning</span></div>
+    <div class="skill-pill"><span class="skill-emoji">🐙</span><span class="skill-name">Git & GitHub</span></div>
+    <div class="skill-pill"><span class="skill-emoji">🎯</span><span class="skill-name">.NET / C#</span></div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="why-grid">
+    <div>
+      <div class="section-label reveal">Why Royaal Tech</div>
+      <h2 class="section-title reveal reveal-delay-1">Built different.<br>Delivered <em>better.</em></h2>
+      <ul class="why-points reveal reveal-delay-2">
+        <li><div class="why-check">✓</div><span><strong style="color:var(--rt-black);font-weight:500">Full-stack versatility</strong> — one team from frontend to deployment, no coordination overhead.</span></li>
+        <li><div class="why-check">✓</div><span><strong style="color:var(--rt-black);font-weight:500">Engineering precision</strong> — clean, documented code that your future team can maintain.</span></li>
+        <li><div class="why-check">✓</div><span><strong style="color:var(--rt-black);font-weight:500">Research-led design</strong> — UX decisions backed by user thinking, not guesswork.</span></li>
+        <li><div class="why-check">✓</div><span><strong style="color:var(--rt-black);font-weight:500">Modern ML integration</strong> — add intelligent features without switching vendors.</span></li>
+        <li><div class="why-check">✓</div><span><strong style="color:var(--rt-black);font-weight:500">Transparent communication</strong> — regular updates, no surprises, no black boxes.</span></li>
+      </ul>
+    </div>
+    <div class="why-visual reveal reveal-delay-2">
+      <div class="why-visual-glow"></div>
+      <div class="why-visual-number">RT</div>
+      <div class="why-cards">
+        <div class="why-mini">
+          <div class="why-mini-num">01</div>
+          <div class="why-mini-text"><strong>Agile Delivery</strong>Fast iterations, milestone-based progress, always on schedule.</div>
+        </div>
+        <div class="why-mini">
+          <div class="why-mini-num">02</div>
+          <div class="why-mini-text"><strong>Production-Grade Code</strong>Industry best practices — version control, testing, and docs included.</div>
+        </div>
+        <div class="why-mini">
+          <div class="why-mini-num">03</div>
+          <div class="why-mini-text"><strong>Post-Launch Support</strong>We stay invested in your product even after go-live.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div style="text-align:center;max-width:600px;margin:0 auto 0">
+    <div class="section-label reveal" style="justify-content:center">How We Work</div>
+    <h2 class="section-title reveal reveal-delay-1">A process built<br>for <em>clarity</em></h2>
+    <p style="color:var(--rt-text-muted);margin-top:1rem;font-weight:300;line-height:1.7" class="reveal reveal-delay-2">Four focused phases from first conversation to final delivery — transparent at every step.</p>
+  </div>
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <div class="step-num">01</div>
+      <div class="step-title">Discovery</div>
+      <div class="step-desc">Deep-dive into your goals, users, and constraints. We align before we build.</div>
+    </div>
+    <div class="process-step reveal reveal-delay-1">
+      <div class="step-num">02</div>
+      <div class="step-title">Blueprint</div>
+      <div class="step-desc">Architecture planning, wireframes, and tech stack selection — agreed upfront.</div>
+    </div>
+    <div class="process-step reveal reveal-delay-2">
+      <div class="step-num">03</div>
+      <div class="step-title">Build</div>
+      <div class="step-desc">Iterative development with regular check-ins and live previews throughout.</div>
+    </div>
+    <div class="process-step reveal reveal-delay-3">
+      <div class="step-num">04</div>
+      <div class="step-title">Launch</div>
+      <div class="step-desc">QA-tested deployment, handover documentation, and post-launch support.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-glow"></div>
+  <div class="contact-inner">
+    <div class="section-label reveal">Get in Touch</div>
+    <h2 class="contact-title reveal reveal-delay-1">
+      Ready to build<br><span>something great?</span>
+    </h2>
+    <p class="contact-sub reveal reveal-delay-2">Whether you have a fully scoped project or just an idea — we'd love to hear it. Let's turn your vision into working software.</p>
+    <a href="mailto:Royaaltech@gmail.com" class="btn-primary reveal reveal-delay-3" style="display:inline-flex;margin:0 auto">Send an Email →</a>
+    <div class="contact-cards reveal reveal-delay-2">
+      <a href="https://srijith.vercel.app/" target="_blank" class="contact-card" style="text-decoration:none">
+        <div class="contact-card-icon">🌐</div>
+        <div class="contact-card-label">Portfolio</div>
+        <div class="contact-card-value">srijith.vercel.app</div>
+      </a>
+      <a href="mailto:Royaaltech@gmail.com" class="contact-card" style="text-decoration:none">
+        <div class="contact-card-icon">✉️</div>
+        <div class="contact-card-label">Email</div>
+        <div class="contact-card-value">Royaaltech@gmail.com</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">Royaal<span>Tech</span></a>
+  <p class="footer-copy">© 2025 Royaal Tech. All rights reserved.</p>
+  <p class="footer-credit">Designed by <a href="https://srijith.vercel.app/" target="_blank">Srijith</a></p>
+</footer>
+
+<script>
+function toggleMenu(){
+  const m=document.getElementById('mobile-nav');
+  m.classList.toggle('open');
+}
+
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}});
+},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+window.addEventListener('scroll',()=>{
+  const nav=document.querySelector('nav');
+  if(window.scrollY>50){
+    nav.style.boxShadow='0 1px 30px rgba(0,0,0,0.08)';
+  } else {
+    nav.style.boxShadow='none';
+  }
+});
+</script>
+</body>
+</html>
