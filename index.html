@@ -489,6 +489,280 @@ footer{
   .nav-menu-btn{display:block}
   section{padding:5rem 5%}
 }
+
+/* ── CHATBOT WIDGET ── */
+.rt-chatbot-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--rt-purple), var(--rt-accent2));
+  color: var(--rt-white);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(108, 58, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+}
+.rt-chatbot-btn:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 12px 40px rgba(108, 58, 255, 0.6);
+}
+.rt-chatbot-btn svg {
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+}
+.rt-chatbot-btn .pulse-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--rt-purple-light);
+  animation: chat-pulse 2s infinite;
+  pointer-events: none;
+  opacity: 0.6;
+}
+@keyframes chat-pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.rt-chatbot-window {
+  position: fixed;
+  bottom: 6.5rem;
+  right: 2rem;
+  width: 380px;
+  height: 520px;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+  transform: translateY(30px) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.3s;
+}
+.rt-chatbot-window.open {
+  transform: none;
+  opacity: 1;
+  pointer-events: all;
+}
+.rt-chatbot-header {
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rt-chatbot-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.rt-chatbot-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--rt-purple-light), var(--rt-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--rt-black);
+}
+.rt-chatbot-info {
+  display: flex;
+  flex-direction: column;
+}
+.rt-chatbot-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--rt-white);
+}
+.rt-chatbot-status {
+  font-size: 0.75rem;
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.rt-chatbot-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+  display: inline-block;
+}
+.rt-chatbot-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+}
+.rt-chatbot-close:hover {
+  color: var(--rt-white);
+}
+.rt-chatbot-close svg {
+  width: 20px;
+  height: 20px;
+}
+.rt-chatbot-messages {
+  flex: 1;
+  padding: 1.25rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.rt-chat-msg {
+  max-width: 80%;
+  padding: 0.85rem 1.1rem;
+  border-radius: 18px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  animation: msg-appear 0.3s ease both;
+}
+@keyframes msg-appear {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.rt-chat-msg.bot {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
+  border-top-left-radius: 4px;
+  align-self: flex-start;
+}
+.rt-chat-msg.user {
+  background: var(--rt-purple);
+  color: var(--rt-white);
+  border-top-right-radius: 4px;
+  align-self: flex-end;
+}
+.rt-chat-msg a {
+  color: var(--rt-accent);
+  text-decoration: underline;
+}
+.rt-chatbot-suggestions {
+  padding: 0.5rem 1.25rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.rt-suggestion-chip {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.rt-suggestion-chip:hover {
+  background: rgba(108, 58, 255, 0.15);
+  border-color: var(--rt-purple-light);
+  color: var(--rt-white);
+}
+.rt-chatbot-input-area {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.rt-chatbot-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  padding: 0.75rem 1.25rem;
+  color: var(--rt-white);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.rt-chatbot-input:focus {
+  border-color: var(--rt-purple-light);
+  background: rgba(255, 255, 255, 0.06);
+}
+.rt-chatbot-send {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--rt-purple);
+  color: var(--rt-white);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.1s;
+}
+.rt-chatbot-send:hover {
+  background: var(--rt-purple-light);
+  transform: scale(1.05);
+}
+.rt-chatbot-send svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  margin-left: 2px;
+}
+
+/* Typing indicator style */
+.rt-typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 10px 14px;
+  align-items: center;
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 18px;
+  border-top-left-radius: 4px;
+}
+.rt-typing-dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: typing-bounce 1.4s infinite ease-in-out both;
+}
+.rt-typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.rt-typing-dot:nth-child(2) { animation-delay: -0.16s; }
+.rt-typing-dot:nth-child(3) { animation-delay: 0s; }
+@keyframes typing-bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+@media(max-width: 480px) {
+  .rt-chatbot-window {
+    width: calc(100vw - 2rem);
+    height: 450px;
+    bottom: 5.5rem;
+    right: 1rem;
+  }
+  .rt-chatbot-btn {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
 </style>
 </head>
 <body>
@@ -752,6 +1026,52 @@ footer{
   <p class="footer-credit">Designed by <a href="https://srijith.vercel.app/" target="_blank">Srijith</a></p>
 </footer>
 
+<!-- CHATBOT -->
+<button class="rt-chatbot-btn" id="chatbot-toggle" aria-label="Toggle chat">
+  <div class="pulse-ring"></div>
+  <svg viewBox="0 0 24 24">
+    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+  </svg>
+</button>
+
+<div class="rt-chatbot-window" id="chatbot-window">
+  <div class="rt-chatbot-header">
+    <div class="rt-chatbot-profile">
+      <div class="rt-chatbot-avatar">RT</div>
+      <div class="rt-chatbot-info">
+        <span class="rt-chatbot-name">Royaal Bot</span>
+        <span class="rt-chatbot-status">Online</span>
+      </div>
+    </div>
+    <button class="rt-chatbot-close" id="chatbot-close" aria-label="Close chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+  
+  <div class="rt-chatbot-messages" id="chatbot-messages">
+    <!-- Messages will be dynamically added here -->
+  </div>
+  
+  <div class="rt-chatbot-suggestions" id="chatbot-suggestions">
+    <button class="rt-suggestion-chip" onclick="handleSuggestion('Services')">🌐 Services</button>
+    <button class="rt-suggestion-chip" onclick="handleSuggestion('Tech Stack')">⚛️ Stack</button>
+    <button class="rt-suggestion-chip" onclick="handleSuggestion('Contact Info')">✉️ Contact</button>
+    <button class="rt-suggestion-chip" onclick="handleSuggestion('Process')">⚙️ Process</button>
+  </div>
+  
+  <div class="rt-chatbot-input-area">
+    <input type="text" class="rt-chatbot-input" id="chatbot-input" placeholder="Ask me anything..." autocomplete="off">
+    <button class="rt-chatbot-send" id="chatbot-send" aria-label="Send message">
+      <svg viewBox="0 0 24 24">
+        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
 <script>
 function toggleMenu(){
   const m=document.getElementById('mobile-nav');
@@ -771,6 +1091,167 @@ window.addEventListener('scroll',()=>{
     nav.style.boxShadow='none';
   }
 });
+
+// Chatbot logic
+const chatbotToggle = document.getElementById('chatbot-toggle');
+const chatbotWindow = document.getElementById('chatbot-window');
+const chatbotClose = document.getElementById('chatbot-close');
+const chatbotMessages = document.getElementById('chatbot-messages');
+const chatbotInput = document.getElementById('chatbot-input');
+const chatbotSend = document.getElementById('chatbot-send');
+
+let isChatbotInitialized = false;
+
+function toggleChatbot() {
+  chatbotWindow.classList.toggle('open');
+  if (chatbotWindow.classList.contains('open') && !isChatbotInitialized) {
+    initializeChatbot();
+  }
+}
+
+chatbotToggle.addEventListener('click', toggleChatbot);
+chatbotClose.addEventListener('click', () => chatbotWindow.classList.remove('open'));
+
+function appendMessage(sender, text) {
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `rt-chat-msg ${sender}`;
+  msgDiv.innerHTML = text;
+  chatbotMessages.appendChild(msgDiv);
+  chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+function showTypingIndicator() {
+  const indicator = document.createElement('div');
+  indicator.className = 'rt-typing-indicator';
+  indicator.id = 'rt-typing-indicator';
+  indicator.innerHTML = `
+    <div class="rt-typing-dot"></div>
+    <div class="rt-typing-dot"></div>
+    <div class="rt-typing-dot"></div>
+  `;
+  chatbotMessages.appendChild(indicator);
+  chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  const indicator = document.getElementById('rt-typing-indicator');
+  if (indicator) {
+    indicator.remove();
+  }
+}
+
+function initializeChatbot() {
+  isChatbotInitialized = true;
+  showTypingIndicator();
+  setTimeout(() => {
+    removeTypingIndicator();
+    appendMessage('bot', 'Hi there! 👋 I am <strong>Royaal Bot</strong>, your AI guide to Royaal Tech. How can I help you today?');
+  }, 1000);
+}
+
+function handleSend() {
+  const text = chatbotInput.value.trim();
+  if (!text) return;
+  
+  appendMessage('user', text);
+  chatbotInput.value = '';
+  
+  showTypingIndicator();
+  
+  setTimeout(() => {
+    removeTypingIndicator();
+    const reply = getBotReply(text);
+    appendMessage('bot', reply);
+  }, 1200);
+}
+
+chatbotSend.addEventListener('click', handleSend);
+chatbotInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    handleSend();
+  }
+});
+
+window.handleSuggestion = function(topic) {
+  appendMessage('user', `Tell me about ${topic}`);
+  showTypingIndicator();
+  
+  setTimeout(() => {
+    removeTypingIndicator();
+    let reply = '';
+    if (topic === 'Services') {
+      reply = `We build digital products that move businesses: <br><br>
+               🌐 <strong>Web Development</strong>: High performance web apps using HTML/CSS, React, and Next.js.<br>
+               🤖 <strong>Machine Learning</strong>: Tailored AI/ML model training, datasets, and automation via Python.<br>
+               📱 <strong>App Development</strong>: High-fidelity cross-platform mobile apps.<br>
+               🎨 <strong>UI & UX Design</strong>: Research-led, aesthetic, responsive interfaces.<br>
+               ⚡ <strong>IoT Solutions</strong>: Smart embedded systems and real-time connectivity.<br>
+               🗄️ <strong>Databases & APIs</strong>: Scalable backends in .NET, Java, and SQL.`;
+    } else if (topic === 'Tech Stack') {
+      reply = `We operate across the complete tech stack. Srijith and the team build using:<br><br>
+               • <strong>Python</strong> & Machine Learning tools<br>
+               • <strong>C / C++</strong> for firmware & IoT<br>
+               • <strong>Java</strong> & <strong>.NET / C#</strong> for enterprise backends<br>
+               • <strong>SQL</strong> for relational databases<br>
+               • <strong>HTML, CSS, React, & Next.js</strong> for modern frontends<br>
+               • <strong>Git / GitHub</strong> for secure version control.`;
+    } else if (topic === 'Contact Info') {
+      reply = `Let's make something amazing together! You can reach Srijith and the Royaal Tech team here:<br><br>
+               ✉️ Email: <a href="mailto:royaaltechh@gmail.com">royaaltechh@gmail.com</a><br>
+               🌐 Portfolio: <a href="https://srijith.vercel.app/" target="_blank">srijith.vercel.app</a><br><br>
+               Feel free to drop an email or explore Srijith's portfolio to see recent work!`;
+    } else if (topic === 'Process') {
+      reply = `Our delivery process is engineered for absolute clarity:<br><br>
+               1. <strong>Discovery</strong>: We deep dive into goals, users, and constraints.<br>
+               2. <strong>Blueprint</strong>: Architecture mapping, wireframes, and stack choice.<br>
+               3. <strong>Build</strong>: Iterative development with regular live previews.<br>
+               4. <strong>Launch</strong>: QA-tested deployment, document handoff, and support.`;
+    }
+    appendMessage('bot', reply);
+  }, 1000);
+};
+
+function getBotReply(input) {
+  const query = input.toLowerCase();
+  
+  if (query.includes('hello') || query.includes('hi') || query.includes('hey')) {
+    return "Hello! 😊 Hope you are having a great day. How can Royaal Tech help you build your next project?";
+  }
+  
+  if (query.includes('service') || query.includes('deliver') || query.includes('what do you do')) {
+    return `We offer end-to-end engineering services:<br>
+            • Web development (React, Next.js)<br>
+            • Machine Learning (Python models)<br>
+            • Cross-platform App development<br>
+            • UI/UX Design<br>
+            • IoT smart devices & embedded firmware<br>
+            • Relational Databases & APIs (.NET, Java, SQL)`;
+  }
+  
+  if (query.includes('tech') || query.includes('stack') || query.includes('languages') || query.includes('tools')) {
+    return "Our production stack includes Python, SQL, C Programming, Java, HTML/CSS, React/Next.js, ML, Git/GitHub, and .NET/C#.";
+  }
+  
+  if (query.includes('contact') || query.includes('email') || query.includes('mail') || query.includes('portfolio') || query.includes('srijith')) {
+    return `You can get in touch directly:<br>
+            ✉️ Email Srijith: <a href="mailto:royaaltechh@gmail.com">royaaltechh@gmail.com</a><br>
+            🌐 Portfolio: <a href="https://srijith.vercel.app/" target="_blank">srijith.vercel.app</a>`;
+  }
+  
+  if (query.includes('process') || query.includes('how you work') || query.includes('how we work') || query.includes('step')) {
+    return "Our 4-phase process consists of: 1. Discovery, 2. Blueprint, 3. Build, and 4. Launch. We align early and keep you updated at every step.";
+  }
+  
+  if (query.includes('pricing') || query.includes('price') || query.includes('cost') || query.includes('rate')) {
+    return "Every project is unique! Send us a brief description of your requirements at <a href='mailto:royaaltechh@gmail.com'>royaaltechh@gmail.com</a>, and we'll get back to you with a tailored estimate and timeline.";
+  }
+  
+  if (query.includes('help') || query.includes('what can i ask')) {
+    return "You can ask me about our services, tech stack, Srijith's portfolio, our delivery process, or how to contact us.";
+  }
+  
+  return "I'm here to help! 🚀 Try asking about our <strong>services</strong>, <strong>tech stack</strong>, <strong>process</strong>, <strong>portfolio</strong>, or <strong>contact info</strong>. Alternatively, you can click on one of the quick options below.";
+}
 </script>
 </body>
 </html>
