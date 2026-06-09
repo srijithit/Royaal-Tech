@@ -873,6 +873,170 @@ footer{
   line-height: 1.6;
 }
 
+/* ── PROJECTS ── */
+.projects { background: var(--rt-black); padding: 7rem 5%; }
+.projects .section-title { color: var(--rt-white); }
+.projects-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 4.5rem;
+}
+.projects-desc {
+  color: rgba(255,255,255,0.45);
+  font-weight: 300;
+  line-height: 1.7;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 2rem;
+}
+@media(max-width:900px){
+  .projects-grid { grid-template-columns: 1fr; }
+}
+.project-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.175,0.885,0.32,1.275), box-shadow 0.35s, border-color 0.3s;
+  text-decoration: none;
+  display: block;
+  position: relative;
+}
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 80px rgba(108,58,255,0.25);
+  border-color: rgba(108,58,255,0.4);
+}
+.project-thumb-wrap {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background: rgba(108,58,255,0.08);
+}
+.project-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.5s ease;
+  display: block;
+}
+.project-card:hover .project-thumb-wrap img {
+  transform: scale(1.05) translateY(-5px);
+}
+.project-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(10,10,10,0.7) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.project-card:hover .project-thumb-overlay { opacity: 1; }
+.project-visit-btn {
+  background: var(--rt-purple);
+  color: #fff;
+  padding: 0.6rem 1.5rem;
+  border-radius: 100px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transform: translateY(10px);
+  transition: transform 0.3s;
+}
+.project-card:hover .project-visit-btn { transform: translateY(0); }
+.project-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(10,10,10,0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.85);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+}
+.project-body {
+  padding: 1.75rem 2rem 2rem;
+}
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.project-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rt-accent);
+  background: rgba(0,229,255,0.08);
+  border: 1px solid rgba(0,229,255,0.15);
+  padding: 0.2rem 0.7rem;
+  border-radius: 100px;
+}
+.project-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--rt-white);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+.project-desc {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.65;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+.project-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.project-url {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.3);
+  font-family: monospace;
+  letter-spacing: 0.01em;
+}
+.project-arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(108,58,255,0.15);
+  border: 1px solid rgba(108,58,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rt-purple-light);
+  font-size: 1rem;
+  transition: background 0.2s, transform 0.2s;
+}
+.project-card:hover .project-arrow {
+  background: var(--rt-purple);
+  color: #fff;
+  transform: rotate(-45deg);
+}
+
 /* ── CUSTOM CURSOR ── */
 #cursor {
   width: 12px; height: 12px;
@@ -927,6 +1091,7 @@ body:hover #cursor-ring { opacity: 1; }
     <li><a href="#skills">Skills</a></li>
     <li><a href="#why">Why Us</a></li>
     <li><a href="#team">Team</a></li>
+    <li><a href="#projects">Projects</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -940,6 +1105,7 @@ body:hover #cursor-ring { opacity: 1; }
   <a href="#skills" onclick="toggleMenu()">Skills</a>
   <a href="#why" onclick="toggleMenu()">Why Us</a>
   <a href="#team" onclick="toggleMenu()">Team</a>
+  <a href="#projects" onclick="toggleMenu()">Projects</a>
   <a href="#process" onclick="toggleMenu()">Process</a>
   <a href="#contact" onclick="toggleMenu()">Contact</a>
 </div>
@@ -1150,6 +1316,76 @@ body:hover #cursor-ring { opacity: 1; }
         Leads Royaal Tech's overall engineering vision. Specializes in building modern web apps, robust ML pipelines, and integrated IoT solutions.
       </p>
     </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="projects-header">
+    <div class="section-label reveal" style="color:var(--rt-accent);justify-content:center">Our Work</div>
+    <h2 class="section-title reveal reveal-delay-1">Projects we've<br><em style="color:var(--rt-purple-light)">shipped.</em></h2>
+    <p class="projects-desc reveal reveal-delay-2">Real products built and deployed for real clients — from e-commerce platforms to enterprise storefronts, crafted end-to-end by Royaal Tech.</p>
+  </div>
+  <div class="projects-grid">
+
+    <!-- Geetha Tex -->
+    <a href="https://geetha-tex.vercel.app/" target="_blank" class="project-card reveal">
+      <div class="project-thumb-wrap">
+        <img
+          src="https://image.thum.io/get/width/900/crop/600/https://geetha-tex.vercel.app/"
+          alt="Geetha Tex — Premium Silk & Kerala Sarees"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 900 600%22%3E%3Crect fill=%22%230a0a0a%22 width=%22900%22 height=%22600%22/%3E%3Ctext x=%2250%25%22 y=%2248%25%22 text-anchor=%22middle%22 fill=%22%236c3aff%22 font-size=%2260%22%3E🧵%3C/text%3E%3Ctext x=%2250%25%22 y=%2260%25%22 text-anchor=%22middle%22 fill=%22%23ffffff%22 font-size=%2222%22%3EGeetha Tex%3C/text%3E%3C/svg%3E'"
+        >
+        <div class="project-badge">🧵 E-Commerce</div>
+        <div class="project-thumb-overlay">
+          <div class="project-visit-btn">↗ Visit Site</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="project-tag">Web App</span>
+          <span class="project-tag">E-Commerce</span>
+          <span class="project-tag">UI / UX</span>
+        </div>
+        <div class="project-name">Geetha Tex</div>
+        <p class="project-desc">Premium handwoven Soft Silk &amp; Kerala Sarees online store from Salem, Tamil Nadu. Full-stack e-commerce platform with product catalog, cart, and order management — 30+ year legacy brand brought online.</p>
+        <div class="project-meta">
+          <span class="project-url">geetha-tex.vercel.app</span>
+          <div class="project-arrow">→</div>
+        </div>
+      </div>
+    </a>
+
+    <!-- Sanyu Enterprises -->
+    <a href="https://sanyu-enterprises.vercel.app/" target="_blank" class="project-card reveal reveal-delay-1">
+      <div class="project-thumb-wrap">
+        <img
+          src="https://image.thum.io/get/width/900/crop/600/https://sanyu-enterprises.vercel.app/"
+          alt="Sanyu Enterprises — Premium Quality Products"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 900 600%22%3E%3Crect fill=%22%230a0a0a%22 width=%22900%22 height=%22600%22/%3E%3Ctext x=%2250%25%22 y=%2248%25%22 text-anchor=%22middle%22 fill=%22%2300e5ff%22 font-size=%2260%22%3E🏪%3C/text%3E%3Ctext x=%2250%25%22 y=%2260%25%22 text-anchor=%22middle%22 fill=%22%23ffffff%22 font-size=%2222%22%3ESanyu Enterprises%3C/text%3E%3C/svg%3E'"
+        >
+        <div class="project-badge">🏪 Storefront</div>
+        <div class="project-thumb-overlay">
+          <div class="project-visit-btn">↗ Visit Site</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="project-tag">Web App</span>
+          <span class="project-tag">Product Catalog</span>
+          <span class="project-tag">WhatsApp Order</span>
+        </div>
+        <div class="project-name">Sanyu Enterprises</div>
+        <p class="project-desc">Premium quality products storefront with a curated catalog, seamless WhatsApp-based ordering, and a sleek dark aesthetic. Designed for fast, friction-free commerce with instant delivery of orders.</p>
+        <div class="project-meta">
+          <span class="project-url">sanyu-enterprises.vercel.app</span>
+          <div class="project-arrow">→</div>
+        </div>
+      </div>
+    </a>
+
   </div>
 </section>
 
