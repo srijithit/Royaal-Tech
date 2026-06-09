@@ -872,9 +872,60 @@ footer{
   color: var(--rt-text-muted);
   line-height: 1.6;
 }
+
+/* ── CUSTOM CURSOR ── */
+.custom-cursor-dot,
+.custom-cursor-outline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, transform 0.15s ease-out;
+  transform: translate(-50%, -50%);
+}
+.custom-cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--rt-accent);
+}
+.custom-cursor-outline {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--rt-purple-light);
+  transition: opacity 0.3s ease-in-out, width 0.3s, height 0.3s, border-color 0.3s, background-color 0.3s;
+}
+
+/* Hover state styling */
+.custom-cursor-hover .custom-cursor-outline {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(108, 58, 255, 0.1);
+  border-color: var(--rt-accent);
+}
+.custom-cursor-hover .custom-cursor-dot {
+  transform: translate(-50%, -50%) scale(1.5);
+  background-color: var(--rt-white);
+}
+
+/* Hide default cursor on desktop device when custom cursor is active */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  a, button, select, input, textarea, .service-card, .skill-pill, .why-mini, .process-step, .rt-suggestion-chip, .team-card {
+    cursor: none;
+  }
+}
 </style>
 </head>
 <body>
+
+<!-- CUSTOM CURSOR -->
+<div class="custom-cursor-dot"></div>
+<div class="custom-cursor-outline"></div>
 
 <!-- NAV -->
 <nav>
@@ -1439,6 +1490,63 @@ function showToast(message) {
   setTimeout(() => {
     toast.classList.remove('show');
   }, 3000);
+}
+
+// Custom Cursor Effect
+const cursorDot = document.querySelector('.custom-cursor-dot');
+const cursorOutline = document.querySelector('.custom-cursor-outline');
+
+if (cursorDot && cursorOutline) {
+  let mouseX = 0;
+  let mouseY = 0;
+  
+  let outlineX = 0;
+  let outlineY = 0;
+  
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    // Show cursor when moving
+    cursorDot.style.opacity = '1';
+    cursorOutline.style.opacity = '1';
+    
+    // Position dot immediately
+    cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) scale(${document.body.classList.contains('custom-cursor-hover') ? 1.5 : 1})`;
+  });
+  
+  // Smooth animation for outer outline
+  function animateOutline() {
+    const ease = 0.15;
+    outlineX += (mouseX - outlineX) * ease;
+    outlineY += (mouseY - outlineY) * ease;
+    
+    cursorOutline.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 0)`;
+    
+    requestAnimationFrame(animateOutline);
+  }
+  requestAnimationFrame(animateOutline);
+  
+  // Hide cursor when leaving window
+  document.addEventListener('mouseleave', () => {
+    cursorDot.style.opacity = '0';
+    cursorOutline.style.opacity = '0';
+  });
+  
+  // Add hover effect for interactive elements
+  const interactiveSelector = 'a, button, input, select, textarea, .service-card, .skill-pill, .why-mini, .process-step, .rt-suggestion-chip, .team-card';
+  
+  document.body.addEventListener('mouseover', (e) => {
+    if (e.target.closest(interactiveSelector)) {
+      document.body.classList.add('custom-cursor-hover');
+    }
+  });
+  
+  document.body.addEventListener('mouseout', (e) => {
+    if (!e.target.closest(interactiveSelector)) {
+      document.body.classList.remove('custom-cursor-hover');
+    }
+  });
 }
 </script>
 <!-- Toast container -->
