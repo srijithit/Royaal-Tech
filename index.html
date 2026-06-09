@@ -874,40 +874,30 @@ footer{
 }
 
 /* ── CUSTOM CURSOR ── */
-.custom-cursor-dot,
-.custom-cursor-outline {
-  position: fixed;
-  top: 0;
-  left: 0;
+#cursor {
+  width: 12px; height: 12px;
+  background: var(--rt-accent);
   border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out, transform 0.15s ease-out;
-  transform: translate(-50%, -50%);
+  position: fixed; pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform .1s, background .2s;
+  mix-blend-mode: screen;
 }
-.custom-cursor-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--rt-accent);
+#cursor-ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--rt-accent);
+  border-radius: 50%;
+  position: fixed; pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform .18s ease, width .2s, height .2s, border-color .2s;
+  opacity: .5;
 }
-.custom-cursor-outline {
-  width: 40px;
-  height: 40px;
-  border: 2px solid var(--rt-purple-light);
-  transition: opacity 0.3s ease-in-out, width 0.3s, height 0.3s, border-color 0.3s, background-color 0.3s;
-}
+body:hover #cursor-ring { opacity: 1; }
 
-/* Hover state styling */
-.custom-cursor-hover .custom-cursor-outline {
-  width: 60px;
-  height: 60px;
-  background-color: rgba(108, 58, 255, 0.1);
-  border-color: var(--rt-accent);
-}
-.custom-cursor-hover .custom-cursor-dot {
-  transform: translate(-50%, -50%) scale(1.5);
-  background-color: var(--rt-white);
+/* Disable Custom Cursor on Touch Devices */
+@media (hover: none) and (pointer: coarse) {
+  #cursor, #cursor-ring { display: none !important; }
+  body, a, button, .service-card, .skill-pill, .why-mini, .process-step, .rt-suggestion-chip, .team-card, input, textarea { cursor: auto !important; }
 }
 
 /* Hide default cursor on desktop device when custom cursor is active */
@@ -924,8 +914,8 @@ footer{
 <body>
 
 <!-- CUSTOM CURSOR -->
-<div class="custom-cursor-dot"></div>
-<div class="custom-cursor-outline"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
 <!-- NAV -->
 <nav>
@@ -1493,61 +1483,37 @@ function showToast(message) {
 }
 
 // Custom Cursor Effect
-const cursorDot = document.querySelector('.custom-cursor-dot');
-const cursorOutline = document.querySelector('.custom-cursor-outline');
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
 
-if (cursorDot && cursorOutline) {
-  let mouseX = 0;
-  let mouseY = 0;
-  
-  let outlineX = 0;
-  let outlineY = 0;
-  
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    
-    // Show cursor when moving
-    cursorDot.style.opacity = '1';
-    cursorOutline.style.opacity = '1';
-    
-    // Position dot immediately
-    cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) scale(${document.body.classList.contains('custom-cursor-hover') ? 1.5 : 1})`;
-  });
-  
-  // Smooth animation for outer outline
-  function animateOutline() {
-    const ease = 0.15;
-    outlineX += (mouseX - outlineX) * ease;
-    outlineY += (mouseY - outlineY) * ease;
-    
-    cursorOutline.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 0)`;
-    
-    requestAnimationFrame(animateOutline);
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  if (cursor && ring) {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * .12; ry += (my - ry) * .12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
   }
-  requestAnimationFrame(animateOutline);
-  
-  // Hide cursor when leaving window
-  document.addEventListener('mouseleave', () => {
-    cursorDot.style.opacity = '0';
-    cursorOutline.style.opacity = '0';
-  });
-  
-  // Add hover effect for interactive elements
-  const interactiveSelector = 'a, button, input, select, textarea, .service-card, .skill-pill, .why-mini, .process-step, .rt-suggestion-chip, .team-card';
-  
-  document.body.addEventListener('mouseover', (e) => {
-    if (e.target.closest(interactiveSelector)) {
-      document.body.classList.add('custom-cursor-hover');
-    }
-  });
-  
-  document.body.addEventListener('mouseout', (e) => {
-    if (!e.target.closest(interactiveSelector)) {
-      document.body.classList.remove('custom-cursor-hover');
-    }
-  });
+  requestAnimationFrame(animCursor);
 }
+animCursor();
+
+document.querySelectorAll('a, button, .service-card, .skill-pill, .why-mini, .process-step, .rt-suggestion-chip, .team-card, input, textarea').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    if (cursor && ring) {
+      cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+      ring.style.width = '60px'; ring.style.height = '60px';
+      ring.style.borderColor = 'var(--rt-purple-light)';
+    }
+  });
+  el.addEventListener('mouseleave', () => {
+    if (cursor && ring) {
+      cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+      ring.style.width = '36px'; ring.style.height = '36px';
+      ring.style.borderColor = 'var(--rt-accent)';
+    }
+  });
+});
 </script>
 <!-- Toast container -->
 <div class="rt-toast" id="rt-toast">Email copied to clipboard!</div>
